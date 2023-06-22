@@ -184,13 +184,13 @@ tourSchema.pre(/^find/, function (next) {
     next();
 });
 
-tourSchema.post(/^find/, function (docs, next) {
-    // docs: access to the documents returned from d query, We no longer have access to the "this" keyword here
-    console.log(`Query took ${Date.now() - this.start} milliseconds`); // current-time - start-time
-    // console.log(docs);
+// tourSchema.post(/^find/, function (docs, next) {
+//     // docs: access to the documents returned from d query, We no longer have access to the "this" keyword here
+//     console.log(`Query took ${Date.now() - this.start} milliseconds`); // current-time - start-time
+//     // console.log(docs);
 
-    next();
-});
+//     next();
+// });
 
 // AGGREGATION MIDDLEWARE:
 // tourSchema.pre('aggregate', function (next) {

@@ -7,7 +7,7 @@ class APIFeatures {
     filter() {
         // BUILD THE QUERY
         // 1a) Filtering
-        console.log(this.queryString);
+        // console.log(this.queryString);
         const queryObj = { ...this.queryString }; // we dont manipulate the req.query object
         const excludedFields = ['page', 'sort', 'limit', 'fields'];
         excludedFields.forEach((el) => delete queryObj[el]); // remove d excluded fields from d queryObj
@@ -24,7 +24,7 @@ class APIFeatures {
 
     sort() {
         if (this.queryString.sort) {
-            console.log(this.queryString.sort);
+            // console.log(this.queryString.sort);
             const sortBy = this.queryString.sort.split(',').join(' '); // sorts the sort string
             this.query = this.query.sort(sortBy); // sort is a query prototype funct
             // query.sort('price ratingsAverage')
