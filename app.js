@@ -8,6 +8,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
+const cors = require('cors');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -25,6 +26,20 @@ app.set('view engine', 'pug'); // Tells express the template engine were using
 app.set('views', path.join(__dirname, 'views')); // define the views "pug" folder
 
 // (1) GLOBALS MIDDLEWARES
+// Implement CORS // for allowing everyone to consume our api // // Allow-Control-Allow-Origin
+app.use(cors());
+
+// "Only" allow this url below to interact with our api
+// app.use(
+//     cors({
+//         origin: 'https://www.natours.com',
+//     })
+// );
+
+// for non-simple request(put, patch, delete, cookie request)
+app.options('*', cors());
+// app.options('/api/v1/tours/:id', cors()); // allow complex(non-simple) request on just a specific route // only d "tours" can be deleted or patched from a cross origin request
+
 // Serving static files // accessing files
 app.use(express.static(path.join(__dirname, 'public')));
 
