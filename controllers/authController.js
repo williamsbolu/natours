@@ -13,20 +13,19 @@ const signToken = (id) => {
     });
 };
 
-const createSendToken = (user, statusCode, res) => {
+const createSendToken = (user, statusCode, req, res) => {
     // Create our Token // jwt.sign(payload, secret, options)
     const token = signToken(user._id);
-    const cookieOptions = {
+
+    // send a cookie
+    res.cookie('jwt', token, {
         expires: new Date(
             Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
         ), // returns milliseconds timestamp 90 days from now
         httpOnly: true,
-    };
-
-    if (process.env.NODE_ENV === 'production') cookieOptions.secure = true; // we only want to activate this part "secure: true," in production
-
-    // send a cookie
-    res.cookie('jwt', token, cookieOptions);
+        secure: req.secure || req.headers['x-forwarded-proto'] === 'https', // returns true or false
+    });
+    // we only want to activate this part "secure: true," in production
 
     // remove the password from the output
     user.password = undefined;
@@ -56,7 +55,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     // console.log(url);
     await new Email(newUser, url).sendWelcome(); // sendWelcome is an async function
 
-    createSendToken(newUser, 201, res);
+    createSendToken(newUser, 201, req, res);
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -76,7 +75,7 @@ exports.login = catchAsync(async (req, res, next) => {
     }
 
     // (3) if everything is okay, send token to d client
-    createSendToken(user, 200, res);
+    createSendToken(user, 200, req, res);
 });
 
 exports.logout = (req, res) => {
@@ -250,7 +249,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     // 3. Update ChangedPasswordAt property for the user
 
     // 3. Log the user in, Send JWT
-    createSendToken(user, 200, res);
+    createSendToken(user, 200, req, res);
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
@@ -269,7 +268,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
     // User.findByIdAndUpdate() we didnt use this function becus our pre save middleware and validator won't run for this method
 
     // 4. Log the user in and send jwt
-    createSendToken(user, 200, res);
+    createSendToken(user, 200, req, res);
 });
 
 // const verify =  promisify(jwt.verify)  <=>  verify now is the promise version of jwt.verify

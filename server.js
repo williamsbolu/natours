@@ -15,10 +15,7 @@ dotenv.config({
 const app = require('./app'); // our express application
 
 // Gets the database connection string and replace the password
-const DB = process.env.DATABASE.replace(
-    '<PASSWORD>',
-    process.env.DATABASE_PASSWORD
-);
+const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD);
 
 // connect method returns a promise
 mongoose
@@ -44,10 +41,21 @@ process.on('unhandledRejection', (err) => {
     console.log('UNHANDLED REJECTION! 💥 Shutting down...');
     console.log(err.name, err.message);
 
-    // finishes all current and pending request
+    // finishes all current and pending request and close
     server.close(() => {
         process.exit(1); // terminate/exit d serer
     });
+});
+
+process.on('SIGTERM', () => {
+    console.log('✋ SIGTERM RECEIVED. Shutting down gracefully');
+
+    // finishes all current and pending request and close
+    server.close(() => {
+        console.log('💥 Process terminated!');
+    });
+
+    // process.exit(1) // we dont need this cuz SIGTERM automatically cause d application to shut down
 });
 
 // dotenv is to add our variables to out enviroment variables What the dotenv config does is to read the variables from the file ('./config.env')
