@@ -29,7 +29,9 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
                     product_data: {
                         name: `${tour.name} Tour`,
                         description: `${tour.summary}`,
-                        images: [`https://www.natours.dev/img/tours/${tour.imageCover}`],
+                        images: [
+                            `${req.protocol}://${req.get('host')}/${tour.imageCover}`,
+                        ],
                     },
                 },
             },
@@ -58,6 +60,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 // });
 
 // req.originalUrl returns the current url of the host
+// ${req.protocol}://${req.get('host')} returns the hosting service of the "web-api/server"
 
 const createBookingCheckout = async (session) => {
     // console.log(session);
