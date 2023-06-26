@@ -60,7 +60,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 // req.originalUrl returns the current url of the host
 
 const createBookingCheckout = async (session) => {
-    console.log(session);
+    // console.log(session);
     const tourId = session.client_reference_id;
     const userId = (await User.findOne({ email: session.customer_email })).id;
     const price = session.amount_total / 100;
