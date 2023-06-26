@@ -7,6 +7,8 @@ const router = express.Router();
 
 // router.use(authController.isLoggedIn); // applied to every single route // remember this route runs for for every request in the database also
 
+router.use(viewsController.alerts); // runs for every request in this router // picks up d alert from the querystring, and put a alert message unto the response.locals
+
 router.get('/', authController.isLoggedIn, viewsController.getOverview);
 router.get('/tour/:slug', authController.isLoggedIn, viewsController.getTour);
 router.get('/login', authController.isLoggedIn, viewsController.getLoginForm);
