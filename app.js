@@ -16,6 +16,7 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
+const bookingController = require('./controllers/bookingsController');
 const viewRouter = require('./routes/viewRoutes');
 
 const app = express();
@@ -62,7 +63,14 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 
-// Body Parser, reading data from the body into req.body
+// for stripe.
+app.post(
+    '/webhook-checkout',
+    express.raw({ type: 'application/json' }),
+    bookingController.webhookCheckout
+); // we need the req body in a raw format (not json)
+
+// Body Parser, reading data from the body into req.body (parsed req.body into json)
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' })); // parses data from an html form
 app.use(cookieParser()); // parses data from cookies
