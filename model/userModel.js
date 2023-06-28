@@ -58,7 +58,7 @@ userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
 
     // Encrypt d password: hash with a cost of 12
-    // this.password = await brypt.hash(this.password, 12); // Async: returns a promise
+    this.password = await brypt.hash(this.password, 12); // Async: returns a promise
 
     // Delete the passwordConfirm field
     this.passwordConfirm = undefined;
