@@ -81,17 +81,19 @@ const tourSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        // schema object describing a certain point on earth
         startLocation: {
             // GeoJSON data format
             type: {
                 type: String,
-                default: 'Point', // geometry
+                default: 'Point', // geometry ['Polygons, 'Lines', Point']
                 enum: ['Point'],
             },
             coordinates: [Number], // lat, lon
             address: String,
             description: String,
         },
+        // Embedded Documents
         locations: [
             {
                 type: {
@@ -111,10 +113,10 @@ const tourSchema = new mongoose.Schema(
                 type: mongoose.Schema.ObjectId,
                 ref: 'User',
             },
-        ],
+        ], // Referencing: child referencing
     },
     {
-        // for d virtuals properties
+        // for d virtuals properties to show in json and objects output
         toJSON: { virtuals: true },
         toObject: { virtuals: true },
     }
@@ -142,7 +144,7 @@ tourSchema.virtual('reviews', {
 // DOCUMENT MIDDLEWARE:
 // runs before an actual document is saved to d database (runs for the .save() and .create() mongoose mmethod)
 tourSchema.pre('save', function (next) {
-    // console.log(this); // this points to d current processed document (saved)
+    // console.log(this); // this points to d current processed document (saved) or the Query
 
     this.slug = slugify(this.name, { lower: true }); // a new property
     next();
@@ -153,6 +155,7 @@ tourSchema.pre('save', function (next) {
 //     const guidesPromises = this.guides.map((id) => User.findById(id));
 //     this.guides = await Promise.all(guidesPromises);
 //     next();
+//     // const guidesPromises = this.guides.map(async id => await User.findById(id)) // jonas code
 // });
 
 // tourSchema.pre('save', function (next) {

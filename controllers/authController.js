@@ -230,7 +230,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     // "IMPORTANT💥" Here we find the user based on the "token" and based on if passwordResetExpires is greater then d current time
     const user = await User.findOne({
         passwordResetToken: hashedToken,
-        passwordResetExpires: { $gt: Date.now() }, // used an operator to chek if d passwordResetExpires is greater then d curent time
+        passwordResetExpires: { $gt: Date.now() }, // used an operator to also chek if d passwordResetExpires is greater then d curent time
     });
     // console.log(user);
 
@@ -246,7 +246,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
     await user.save(); // save d modified fields to the db
 
-    // 3. Update ChangedPasswordAt property for the user
+    // 3. Update ChangedPasswordAt property for the user (Done in d user model 👌)
 
     // 3. Log the user in, Send JWT
     createSendToken(user, 200, req, res);
