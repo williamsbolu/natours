@@ -37,7 +37,7 @@ router
 
 router.route('/distances/:latlng/unit/:unit').get(tourController.getDistances);
 
-router.route('/:slug').get(tourController.getTourSlug);
+router.route('/tour/:slug').get(tourController.getTourSlug);
 
 router
     .route('/')
