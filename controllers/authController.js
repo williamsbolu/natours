@@ -171,11 +171,25 @@ exports.isLoggedIn = async (req, res, next) => {
 };
 
 exports.isLoggedInApi = async (req, res, next) => {
-    // By default if the cookie is invalid, or we don't have a cookie!
+    // By default if the cookie is invalid, or we dont have a cookie!
     res.status(200).json({
         status: 'success',
         isLoggedIn: false,
     });
+};
+
+// A function that returns a middleware function
+exports.restrictTo = (...roles) => {
+    return (req, res, next) => {
+        // roles ['admin', 'lead-guide']. role=user = "error"
+        if (!roles.includes(req.user.role)) {
+            return next(
+                new AppError('You do not have permission to perform this action', 403)
+            );
+        }
+
+        next();
+    };
 };
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
