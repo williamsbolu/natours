@@ -50,10 +50,10 @@ exports.signup = catchAsync(async (req, res, next) => {
         // role: req.body.role,
     });
 
-    // https://siteurl/me
-    const url = `${req.protocol}://${req.get('host')}/me`;
-    // console.log(url);
-    await new Email(newUser, url).sendWelcome(); // sendWelcome is an async function
+    // // https://siteurl/me
+    // const url = `${req.protocol}://${req.get('host')}/me`;
+    // // console.log(url);
+    // await new Email(newUser, url).sendWelcome(); // sendWelcome is an async function
 
     createSendToken(newUser, 201, req, res);
 });
@@ -171,6 +171,16 @@ exports.isLoggedIn = async (req, res, next) => {
 };
 
 exports.isLoggedInApi = async (req, res, next) => {
+    if (req.cookies.jwt) {
+        try {
+            // "throws" an error if it couldnt verify d token. thats why we use the try/catch block
+            const decoded = await promisify(jwt.verify)(
+                req.cookies.jwt,
+                process.env.JWT_SECRET
+            );
+        } catch (err) {}
+    }
+
     // By default if the cookie is invalid, or we dont have a cookie!
     res.status(200).json({
         status: 'success',
