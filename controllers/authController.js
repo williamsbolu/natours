@@ -178,7 +178,36 @@ exports.isLoggedInApi = async (req, res, next) => {
                 req.cookies.jwt,
                 process.env.JWT_SECRET
             );
-        } catch (err) {}
+            console.log(decoded);
+
+            // Check if d user still exists
+            const currentUser = await User.findById(decoded.id);
+            if (!currentUser) {
+                return res.status(200).json({
+                    status: 'success',
+                    isLoggedIn: false,
+                });
+            }
+
+            // Check if user changed password after the token was issued/created
+            if (currentUser.changePasswordAfter(decoded.iat)) {
+                return res.status(200).json({
+                    status: 'success',
+                    isLoggedIn: false,
+                });
+            }
+
+            return res.status(200).json({
+                status: 'success',
+                isLoggedIn: true,
+            });
+        } catch (err) {
+            // TTHERE IS NO LOGGED IN USER. error from jwt.verify()
+            return res.status(200).json({
+                status: 'success',
+                isLoggedIn: false,
+            });
+        }
     }
 
     // By default if the cookie is invalid, or we dont have a cookie!
