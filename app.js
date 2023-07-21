@@ -101,8 +101,8 @@ app.use(compression());
 app.use((req, res, next) => {
     req.requestTime = new Date().toISOString();
     // console.log('Hello from the middleware 😁');
-    console.log(req.headers); //get the req headers
-    console.log(req.secure); //get the req headers
+    // console.log(req.headers); //get the req headers
+    // console.log(req.secure); //get the req headers
     // console.log(req.cookies);
     next();
 });
