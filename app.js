@@ -28,7 +28,7 @@ app.set('views', path.join(__dirname, 'views')); // define the views "pug" folde
 
 // (1) GLOBALS MIDDLEWARES
 // Implement CORS // for allowing everyone to consume our api // // Allow-Control-Allow-Origin
-app.use(cors());
+// app.use(cors());
 
 // "Only" allow this url below to interact with our api
 // app.use(
@@ -38,7 +38,7 @@ app.use(cors());
 // );
 
 // for non-simple request(put, patch, delete, cookie request)
-app.options('*', cors());
+// app.options('*', cors());
 // app.options('/api/v1/tours/:id', cors()); // allow complex(non-simple) request on just a specific route // only d "tours" can be deleted or patched from a cross origin request
 
 // Serving static files // accessing files
