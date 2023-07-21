@@ -172,6 +172,7 @@ exports.isLoggedIn = async (req, res, next) => {
 
 exports.isLoggedInApi = async (req, res, next) => {
     if (req.cookies.jwt) {
+        console.log('there ia a cookie');
         try {
             // "throws" an error if it couldnt verify d token. thats why we use the try/catch block
             const decoded = await promisify(jwt.verify)(
@@ -210,6 +211,8 @@ exports.isLoggedInApi = async (req, res, next) => {
             });
         }
     }
+
+    console.log('No cookie');
 
     // By default if the cookie is invalid, or we dont have a cookie!
     res.status(200).json({
