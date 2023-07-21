@@ -28,14 +28,15 @@ app.set('views', path.join(__dirname, 'views')); // define the views "pug" folde
 
 // (1) GLOBALS MIDDLEWARES
 // Implement CORS // for allowing everyone to consume our api // // Allow-Control-Allow-Origin
-app.use(cors());
+// app.use(cors());
 
 // "Only" allow this url below to interact with our api
-// app.use(
-//     cors({
-//         origin: 'https://www.natours.com',
-//     })
-// );
+app.use(
+    cors({
+        origin: 'https://natours-react-three.vercel.app/',
+        credentials: true,
+    })
+);
 
 // for non-simple request(put, patch, delete, cookie request)
 app.options('*', cors());
@@ -102,8 +103,7 @@ app.use((req, res, next) => {
     req.requestTime = new Date().toISOString();
     // console.log('Hello from the middleware 😁');
     // console.log(req.headers); //get the req headers
-    // console.log(req.secure); //get the req headers
-    console.log(req.cookies);
+    // console.log(req.cookies);
     next();
 });
 
