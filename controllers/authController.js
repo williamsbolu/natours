@@ -23,7 +23,7 @@ const createSendToken = (user, statusCode, req, res) => {
             Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
         ), // returns milliseconds timestamp 90 days from now
         httpOnly: true,
-        secure: req.headers['x-forwarded-proto'] === 'https',
+        secure: req.secure,
         // secure: req.secure || req.headers['x-forwarded-proto'] === 'https', // returns true or false
     });
     // we only want to activate this part "secure: true," in production
