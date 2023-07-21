@@ -33,7 +33,7 @@ app.set('views', path.join(__dirname, 'views')); // define the views "pug" folde
 // "Only" allow this url below to interact with our api
 app.use(
     cors({
-        origin: 'https://natours-react-three.vercel.app/',
+        origin: 'https://natours-react-three.vercel.app',
         credentials: true,
     })
 );
