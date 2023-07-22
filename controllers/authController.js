@@ -28,6 +28,8 @@ const createSendToken = (user, statusCode, req, res) => {
         // origin: 'http://127.0.0.1:3001',
     });
     // we only want to activate this part "secure: true," in production
+    console.log('secure', req.secure);
+    console.log('2', req.headers['x-forwarded-proto'] === 'https');
 
     // remove the password from the output
     user.password = undefined;
