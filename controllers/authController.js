@@ -23,8 +23,9 @@ const createSendToken = (user, statusCode, req, res) => {
             Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
         ), // returns milliseconds timestamp 90 days from now
         httpOnly: true,
-        secure: req.secure,
+        secure: true,
         // secure: req.secure || req.headers['x-forwarded-proto'] === 'https', // returns true or false
+        // origin: 'http://127.0.0.1:3001',
     });
     // we only want to activate this part "secure: true," in production
 
@@ -213,7 +214,8 @@ exports.isLoggedInApi = async (req, res, next) => {
         }
     }
 
-    console.log('No cookie');
+    console.log(req.headers);
+    console.log(req.cookies);
 
     // By default if the cookie is invalid, or we dont have a cookie!
     res.status(200).json({
