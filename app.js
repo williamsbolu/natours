@@ -30,6 +30,7 @@ app.set('views', path.join(__dirname, 'views')); // define the views "pug" folde
 // Implement CORS // for allowing everyone to consume our api // // Allow-Control-Allow-Origin
 app.use(
     cors({
+        origin: 'https://natours-react-three.vercel.app/',
         credentials: true,
     })
 );
@@ -108,6 +109,19 @@ app.use((req, res, next) => {
     // console.log('Hello from the middleware 😁');
     console.log(req.headers); //get the req headers
     console.log(req.cookies);
+
+    // // Set the allowed origin(s) - Change '*' to a specific origin if required
+    // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3001');
+
+    // // Allow credentials to be sent with the request
+    // res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // // Set the allowed HTTP methods for the preflight request
+    // res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+
+    // // Set the allowed headers for the request
+    // res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
     next();
 });
 
