@@ -31,6 +31,8 @@ const createSendToken = (user, statusCode, req, res) => {
     });
     // we only want to activate this part "secure: true," in production
 
+    console.log(req.secure);
+
     // remove the password from the output
     user.password = undefined;
 
