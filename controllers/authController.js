@@ -24,8 +24,8 @@ const createSendToken = (user, statusCode, req, res) => {
         ), // returns milliseconds timestamp 90 days from now
         httpOnly: true,
         sameSite: 'none',
-        secure: req.secure || req.headers['x-forwarded-proto'] === 'https', // returns true or false
-        // secure: true, // tested, works on production!!
+        secure: true, // tested, works on production!!
+        // secure: req.secure || req.headers['x-forwarded-proto'] === 'https', // returns true or false
         // path: '/',
         // domain: 'https://natours-react-three.vercel.app',
     });
