@@ -24,15 +24,15 @@ const createSendToken = (user, statusCode, req, res) => {
         ), // returns milliseconds timestamp 90 days from now
         httpOnly: true,
         sameSite: 'none',
-        secure: true,
+        // secure: true,
+        // secure: req.secure || req.headers['x-forwarded-proto'] === 'https', // returns true or false
         // path: '/',
         // domain: 'https://natours-react-three.vercel.app',
-        // secure: req.secure || req.headers['x-forwarded-proto'] === 'https', // returns true or false
         // origin: 'http://127.0.0.1:3001',
     });
     // we only want to activate this part "secure: true," in production
-    console.log('secure', req.secure);
-    console.log('2', req.headers['x-forwarded-proto'] === 'https');
+    console.log('secure log', req.secure);
+    console.log('x forw-proto', req.headers['x-forwarded-proto'] === 'https');
 
     // remove the password from the output
     user.password = undefined;
@@ -218,9 +218,6 @@ exports.isLoggedInApi = async (req, res, next) => {
             });
         }
     }
-
-    console.log(req.headers);
-    console.log(req.cookies);
 
     // By default if the cookie is invalid, or we dont have a cookie!
     res.status(200).json({

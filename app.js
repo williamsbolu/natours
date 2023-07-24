@@ -28,14 +28,6 @@ app.set('views', path.join(__dirname, 'views')); // define the views "pug" folde
 
 // (1) GLOBALS MIDDLEWARES
 // Implement CORS // for allowing everyone to consume our api // // Allow-Control-Allow-Origin
-app.use(
-    cors({
-        origin: 'https://natours-react-three.vercel.app',
-        credentials: true,
-    })
-);
-
-// "Only" allow this url below to interact with our api
 // app.use(
 //     cors({
 //         origin: 'https://natours-react-three.vercel.app',
@@ -43,9 +35,12 @@ app.use(
 //     })
 // );
 
+// "Only" allow this url below to interact with our api
+app.use(cors());
+
 // for non-simple request(put, patch, delete, cookie request)
-// app.options('*', cors());
-app.options('/api/v1/tours/:id', cors()); // allow complex(non-simple) request on just a specific route // only d "tours" can be deleted or patched from a cross origin request
+app.options('*', cors());
+// app.options('/api/v1/tours/:id', cors()); // allow complex(non-simple) request on just a specific route // only d "tours" can be deleted or patched from a cross origin request
 
 // Serving static files // accessing files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -107,24 +102,8 @@ app.use(compression());
 app.use((req, res, next) => {
     req.requestTime = new Date().toISOString();
     // console.log('Hello from the middleware 😁');
-    console.log(req.headers); //get the req headers
-    console.log(req.cookies);
-
-    // res.cookie('', '', {
-    //     sameSite: 'none'
-    // })
-
-    // // Set the allowed origin(s) - Change '*' to a specific origin if required
-    // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3001');
-
-    // // Allow credentials to be sent with the request
-    // res.setHeader('Access-Control-Allow-Credentials', true);
-
-    // // Set the allowed HTTP methods for the preflight request
-    // res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-
-    // // Set the allowed headers for the request
-    // res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    // console.log(req.headers); //get the req headers
+    // console.log(req.cookies);
 
     next();
 });
