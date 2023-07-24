@@ -21,7 +21,8 @@ const viewRouter = require('./routes/viewRoutes');
 
 const app = express();
 
-app.enable('trust proxy'); // for d host pltform
+// app.enable('trust proxy'); // for d host pltform
+app.set('trust proxy', 1);
 
 app.set('view engine', 'pug'); // Tells express the template engine were using
 app.set('views', path.join(__dirname, 'views')); // define the views "pug" folder
