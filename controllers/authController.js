@@ -175,7 +175,6 @@ exports.isLoggedIn = async (req, res, next) => {
 };
 
 exports.isLoggedInApi = async (req, res, next) => {
-    console.log('secure log', req.secure);
     if (req.cookies.jwt) {
         console.log('there ia a cookie');
         try {
@@ -184,7 +183,6 @@ exports.isLoggedInApi = async (req, res, next) => {
                 req.cookies.jwt,
                 process.env.JWT_SECRET
             );
-            console.log(decoded);
 
             // Check if d user still exists
             const currentUser = await User.findById(decoded.id);
