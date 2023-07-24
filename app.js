@@ -36,7 +36,7 @@ app.set('views', path.join(__dirname, 'views')); // define the views "pug" folde
 // );
 
 // "Only" allow this url below to interact with our api
-app.use(cors());
+app.use();
 
 // for non-simple request(put, patch, delete, cookie request)
 app.options('*', cors());
