@@ -23,12 +23,12 @@ const createSendToken = (user, statusCode, req, res) => {
             Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
         ), // returns milliseconds timestamp 90 days from now
         httpOnly: true,
+        sameSite: 'none',
         secure: true,
-        // sameSite: 'none',
+        // path: '/',
         // domain: 'https://natours-react-three.vercel.app',
         // secure: req.secure || req.headers['x-forwarded-proto'] === 'https', // returns true or false
         // origin: 'http://127.0.0.1:3001',
-        // path: '/api/v1/users',
     });
     // we only want to activate this part "secure: true," in production
     console.log('secure', req.secure);
