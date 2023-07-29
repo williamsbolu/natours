@@ -28,7 +28,7 @@ mongoose
     .then((con) => console.log('DB connection successful!'));
 // .catch((err) => console.log('Error')); // for unhandled rejected promise
 
-console.log(app.get('env')); // Gets d enviroment were running in
+// console.log(app.get('env')); // Gets d enviroment were running in
 // console.log(process.env); // gets the enviroment variables
 
 const port = process.env.PORT || 3000;

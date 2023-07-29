@@ -105,6 +105,7 @@ app.use((req, res, next) => {
     // console.log('Hello from the middleware 😁');
     // console.log(req.headers); //get the req headers
     // console.log(req.cookies);
+    console.log(process.env.NODE_ENV);
 
     next();
 });
