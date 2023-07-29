@@ -26,8 +26,7 @@ const handleValidationErrorDB = (err) => {
     return new AppError(message, 400);
 };
 
-const handleJWTError = () =>
-    new AppError('Invalid Token. Please log in again!', 401);
+const handleJWTError = () => new AppError('Invalid Token. Please log in again!', 401);
 
 const handleJWTExpiredError = () =>
     new AppError('Your token has expired! Please log in again.', 401);
@@ -102,27 +101,28 @@ module.exports = (err, req, res, next) => {
     if (process.env.NODE_ENV === 'development') {
         sendErrorDev(err, req, res);
     } else if (process.env.NODE_ENV === 'production') {
+        // console.log(err);
         // in this block i was meant to clone the err object like d example below, but since im not using the err object elsewhere there no need for that
-        // let error = { ...err };
-        // error.name = err.name;
-        // console.log(error);
+        let error = { ...err };
+        error.name = err.name;
+        console.log(error);
 
         // CastError: error gotten from invalid id in mongoose (Get Tour)
-        if (err.name === 'CastError') err = handleCastErrorDB(err);
+        if (error.name === 'CastError') error = handleCastErrorDB(error);
 
         // Mongoose duplicate key/fields (Create Tour)
-        if (err.code === 11000) err = handleDuplicateFieldsDB(err);
+        if (error.code === 11000) error = handleDuplicateFieldsDB(error);
 
         // Mongoose validation error (update tour)
-        if (err.name === 'ValidationError') err = handleValidationErrorDB(err);
+        if (error.name === 'ValidationError') error = handleValidationErrorDB(error);
 
         // json web token error "jwt.verify()": Invalid Token
-        if (err.name === 'JsonWebTokenError') err = handleJWTError();
+        if (error.name === 'JsonWebTokenError') error = handleJWTError();
 
         // json web token error "jwt.verify()": Expired Token
-        if (err.name === 'TokenExpiredError') err = handleJWTExpiredError();
+        if (error.name === 'TokenExpiredError') error = handleJWTExpiredError();
 
-        sendErrorProd(err, req, res);
+        sendErrorProd(error, req, res);
     }
 };
 
