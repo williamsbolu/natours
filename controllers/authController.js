@@ -24,14 +24,12 @@ const createSendToken = (user, statusCode, req, res) => {
         ), // returns milliseconds timestamp 90 days from now
         httpOnly: true,
         sameSite: 'none',
-        secure: true, // tested, works on production!!
-        // secure: req.secure || req.headers['x-forwarded-proto'] === 'https', // returns true or false
+        secure: req.secure || req.headers['x-forwarded-proto'] === 'https', // returns true or false
+        // secure: true, // tested, works on production!!
         // path: '/',
         // domain: 'https://natours-react-three.vercel.app',
     });
     // we only want to activate this part "secure: true," in production
-
-    console.log(req.secure);
 
     // remove the password from the output
     user.password = undefined;
@@ -99,6 +97,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     // 1. Get the token and check if its there
     let token;
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+        console.log('auth header is set 🎆🎆🎆');
         token = req.headers.authorization.split(' ')[1];
     } else if (req.cookies.jwt) {
         // runs if there was no token in the authorization header

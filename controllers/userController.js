@@ -89,14 +89,10 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     if (req.file) fliteredBody.photo = req.file.filename; // Runs if we're updating the photo and adds a photo property to be updated
 
     // 3. Update user document
-    const updatedUser = await User.findByIdAndUpdate(
-        req.user.id,
-        fliteredBody,
-        {
-            new: true,
-            runValidators: true,
-        }
-    ); // passed in options
+    const updatedUser = await User.findByIdAndUpdate(req.user.id, fliteredBody, {
+        new: true,
+        runValidators: true,
+    }); // passed in options
 
     res.status(200).json({
         status: 'success',

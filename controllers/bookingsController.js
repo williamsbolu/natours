@@ -97,6 +97,21 @@ exports.webhookCheckout = (req, res, next) => {
     res.status(200).json({ received: true });
 };
 
+exports.getUserBookings = catchAsync(async (req, res, next) => {
+    const bookings = await Booking.find({ user: req.user.id });
+
+    // Get the tour id from the bookings doc
+    const tourIDs = bookings.map((el) => el.tour);
+
+    const tours = await Tour.find({ _id: { $in: tourIDs } });
+
+    res.status(200).json({
+        status: 'success',
+        results: tours.length,
+        data: tours,
+    });
+});
+
 exports.createBooking = factory.createOne(Booking);
 exports.getBooking = factory.getOne(Booking);
 exports.getAllBooking = factory.getAll(Booking);

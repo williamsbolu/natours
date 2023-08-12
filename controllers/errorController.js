@@ -53,6 +53,8 @@ const sendErrorDev = (err, req, res) => {
 };
 
 const sendErrorProd = (err, req, res) => {
+    console.log(err);
+    console.log(err.message);
     // A) API: runs for the api
     if (req.originalUrl.startsWith('/api')) {
         // Operational, trusted error: send this message to d client
@@ -94,6 +96,8 @@ const sendErrorProd = (err, req, res) => {
 
 module.exports = (err, req, res, next) => {
     // console.log(err.stack); // traces where d error originated
+    console.log(err.message);
+    console.log(err.name);
 
     err.statusCode = err.statusCode || 500;
     err.status = err.status || 'error';
@@ -103,26 +107,26 @@ module.exports = (err, req, res, next) => {
     } else if (process.env.NODE_ENV === 'production') {
         // console.log(err);
         // in this block i was meant to clone the err object like d example below, but since im not using the err object elsewhere there no need for that
-        let error = { ...err };
-        error.name = err.name;
-        console.log(error);
+        // let error = { ...err };
+        // error.name = err.name;
+        // console.log(error);
 
         // CastError: error gotten from invalid id in mongoose (Get Tour)
-        if (error.name === 'CastError') error = handleCastErrorDB(error);
+        if (err.name === 'CastError') err = handleCastErrorDB(err);
 
         // Mongoose duplicate key/fields (Create Tour)
-        if (error.code === 11000) error = handleDuplicateFieldsDB(error);
+        if (err.code === 11000) err = handleDuplicateFieldsDB(err);
 
         // Mongoose validation error (update tour)
-        if (error.name === 'ValidationError') error = handleValidationErrorDB(error);
+        if (err.name === 'ValidationError') err = handleValidationErrorDB(err);
 
         // json web token error "jwt.verify()": Invalid Token
-        if (error.name === 'JsonWebTokenError') error = handleJWTError();
+        if (err.name === 'JsonWebTokenError') err = handleJWTError();
 
         // json web token error "jwt.verify()": Expired Token
-        if (error.name === 'TokenExpiredError') error = handleJWTExpiredError();
+        if (err.name === 'TokenExpiredError') err = handleJWTExpiredError();
 
-        sendErrorProd(error, req, res);
+        sendErrorProd(err, req, res);
     }
 };
 
