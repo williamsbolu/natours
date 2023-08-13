@@ -53,8 +53,6 @@ const sendErrorDev = (err, req, res) => {
 };
 
 const sendErrorProd = (err, req, res) => {
-    console.log(err);
-    console.log(err.message);
     // A) API: runs for the api
     if (req.originalUrl.startsWith('/api')) {
         // Operational, trusted error: send this message to d client
@@ -96,9 +94,6 @@ const sendErrorProd = (err, req, res) => {
 
 module.exports = (err, req, res, next) => {
     // console.log(err.stack); // traces where d error originated
-    console.log(err.message);
-    console.log(err.name);
-
     err.statusCode = err.statusCode || 500;
     err.status = err.status || 'error';
 
