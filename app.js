@@ -33,7 +33,7 @@ app.use(cors());
 // "Only" allow this url below to interact with our api
 // app.use(
 //     cors({
-//         origin: ['https://natours-react-three.vercel.app'],
+//         origin: ['https://natoursweb.vercel.app'],
 //         credentials: true,
 //     })
 // );

@@ -12,7 +12,7 @@ process.on('uncaughtException', (err) => {
 dotenv.config({
     path: './config.env',
 });
-const app = require('./app'); // our express application
+const app = require('./app'); // our express application is kept after reading d config.env file
 
 // Gets the database connection string and replace the password
 const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD);

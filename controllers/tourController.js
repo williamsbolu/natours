@@ -44,8 +44,8 @@ exports.uploadTourImages = upload.fields([
     { name: 'images', maxCount: 3 },
 ]);
 
-// upload.array('images', 3); // req.files // one field with multiple files
-// upload.single('images'); // req.file // one field one files
+// upload.array('images', 3); // req.files // one field with multiple files (images)
+// upload.single('images'); // req.file // one field one file
 
 exports.resizeTourImages = catchAsync(async (req, res, next) => {
     // console.log(req.files); // "files" for multiple files

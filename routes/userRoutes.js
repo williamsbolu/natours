@@ -11,7 +11,7 @@ router.post('/login', authController.login);
 router.get('/logout', authController.logout);
 
 router.post('/forgotPassword', authController.forgotPassword);
-router.patch('/resePatssword/:token', authController.resetPassword);
+router.patch('/resetPassword/:token', authController.resetPassword);
 
 // -- This basially Protects all d routes that comes after this middleware "line 👇" -- Remmeber middleware functions runs in sequence "order of their arrangement" -- //
 router.use(authController.protect);

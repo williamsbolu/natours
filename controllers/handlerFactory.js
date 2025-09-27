@@ -79,7 +79,7 @@ exports.getAll = (Model) =>
         if (req.params.tourId) filter = { tour: req.params.tourId }; // only the reviews in which the tour matches the params id will be found "or else get all the reiews"
 
         // EXECUTE THE QUERY
-        const features = new APIFeatures(Model.find(filter), req.query) // remember Tour.find creates a query
+        const features = new APIFeatures(Model.find(filter), req.query) // remember Model.find creates a query
             .filter()
             .sort()
             .limitFields()

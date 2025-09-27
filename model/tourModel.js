@@ -142,7 +142,7 @@ tourSchema.virtual('reviews', {
 });
 
 // DOCUMENT MIDDLEWARE:
-// runs before an actual document is saved to d database (runs for the .save() and .create() mongoose mmethod)
+// runs before an actual document is saved to d database (runs before the .save() and .create () mongoose mmethod)
 tourSchema.pre('save', function (next) {
     // console.log(this); // this points to d current processed document (saved) or the Query
 

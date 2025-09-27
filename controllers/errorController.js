@@ -104,6 +104,7 @@ module.exports = (err, req, res, next) => {
         // in this block i was meant to clone the err object like d example below, but since im not using the err object elsewhere there no need for that
         // let error = { ...err };
         // error.name = err.name;
+        // error.message = err.message;
         // console.log(error);
 
         // CastError: error gotten from invalid id in mongoose (Get Tour)
